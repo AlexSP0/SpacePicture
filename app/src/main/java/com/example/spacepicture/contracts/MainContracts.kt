@@ -1,10 +1,13 @@
 package com.example.spacepicture.contracts
 
+import com.example.spacepicture.data.NasaImageResponse
 import com.example.spacepicture.presenters.PictureFragmentPresenter
+import com.example.spacepicture.ui.PictureFragment
 
 class MainContracts {
+
     interface MainView {
-        fun setImage()
+        fun setImage(response: NasaImageResponse)
     }
 
     interface MainModel {
@@ -15,6 +18,10 @@ class MainContracts {
     }
 
     interface MainPresenter {
+        abstract fun attach(pictureFragment: MainView)
+
+        fun getDailyImage()
+        fun detach()
 
     }
 

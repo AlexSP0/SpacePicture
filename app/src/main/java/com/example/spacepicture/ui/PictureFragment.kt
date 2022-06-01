@@ -16,6 +16,7 @@ import com.example.spacepicture.contracts.MainContracts
 import com.example.spacepicture.data.NasaImageResponse
 import com.example.spacepicture.presenters.PictureFragmentPresenter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.chip.Chip
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
@@ -34,6 +35,12 @@ class PictureFragment() : Fragment(), MainContracts.MainView {
     private lateinit var input_wiki_text_layout : TextInputLayout
 
     private lateinit var input_text_search_wiki : TextInputEditText
+
+    private lateinit var chipYesterday : Chip
+
+    private lateinit var chipToday : Chip
+
+    private lateinit var chipTomorrow : Chip
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +63,9 @@ class PictureFragment() : Fragment(), MainContracts.MainView {
     }
 
     private fun initSearchWikiIcon(view : View) {
+        chipYesterday = view.findViewById<Chip>(R.id.chip_yesterday);
+        chipToday = view.findViewById<Chip>(R.id.chip_today);
+        chipTomorrow = view.findViewById<Chip>(R.id.chip_tomorrow);
         input_wiki_text_layout = view.findViewById<TextInputLayout>(R.id.input_text_search_wiki_layout)
         input_text_search_wiki = view.findViewById<TextInputEditText>(R.id.input_edit_text_search_wiki)
         input_wiki_text_layout.setEndIconOnClickListener {

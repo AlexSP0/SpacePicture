@@ -8,4 +8,6 @@ interface NasaQueryDailyPicture {
 
     @GET("planetary/apod")
     fun loadDailyImage(@Query("api_key") apiKey: String): Call<NasaImageResponse>
+    @GET("planetary/apod")
+    fun loadDailyImageByDate(@Query("api_key") apiKey: String, @Query("date") date : String) : Call<NasaImageResponse>
 }

@@ -19,6 +19,13 @@
             android:gravity="center"
             app:layout_constraintTop_toTopOf="parent">
             <com.google.android.material.chip.Chip
+                android:id="@+id/chip_before_yesterday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_anchor="@+id/constraintLayout"
+                app:layout_anchorGravity="start|top"
+                android:text="before yesterday"/>
+            <com.google.android.material.chip.Chip
                 android:id="@+id/chip_yesterday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -32,13 +39,6 @@
                 app:layout_anchor="@+id/constraintLayout"
                 app:layout_anchorGravity="start|top"
                 android:text="today"/>
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_tomorrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_anchor="@+id/constraintLayout"
-                app:layout_anchorGravity="start|top"
-                android:text="tomorrow"/>
         </LinearLayout>
 
         <ImageView

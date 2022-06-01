@@ -25,6 +25,10 @@ class PictureFragmentPresenter : MainContracts.MainPresenter {
         this.fragment = fragment
     }
 
+    override fun getDailyImageByDate(date: String) {
+        model.loadImageByDate(date)
+    }
+
     override fun detach() {
         this.fragment = null
     }

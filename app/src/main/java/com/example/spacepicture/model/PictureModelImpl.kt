@@ -39,6 +39,30 @@ class PictureModelImpl : MainContracts.MainModel {
         })
     }
 
+    override fun loadImageByDate(date: String) {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        val query: NasaQueryDailyPicture = retrofit.create(NasaQueryDailyPicture::class.java)
+        query.loadDailyImageByDate(BuildConfig.NASA_API_KEY, date).enqueue(object : Callback<NasaImageResponse> {
+            override fun onResponse(
+                call: Call<NasaImageResponse>,
+                response: Response<NasaImageResponse>
+            ) {
+                val body = response.body()
+                if (response.isSuccessful && body != null) {
+                    presenter.setDailyImage(body)
+                }
+            }
+
+            override fun onFailure(call: Call<NasaImageResponse>, t: Throwable) {
+                //Ooopps..
+            }
+        })
+    }
+
+
     override fun setPresenter(presenter: PictureFragmentPresenter) {
         this.presenter = presenter
     }

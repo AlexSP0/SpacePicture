@@ -19,6 +19,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import java.text.SimpleDateFormat
+import java.util.*
 
 class PictureFragment() : Fragment(), MainContracts.MainView {
 
@@ -58,14 +60,27 @@ class PictureFragment() : Fragment(), MainContracts.MainView {
         super.onViewCreated(view, savedInstanceState)
         image = view.findViewById(R.id.image)
         setBottomSheetBehavior(view.findViewById(R.id.bottom_sheet_container))
+        initChips(view)
         initSearchWikiIcon(view)
         presenter.getDailyImage()
     }
 
-    private fun initSearchWikiIcon(view : View) {
+    private fun initChips(view : View) {
         chipYesterday = view.findViewById<Chip>(R.id.chip_yesterday);
+        chipYesterday.setOnClickListener {
+            presenter.getDailyImageByDate(takeDate(-1))
+        }
         chipToday = view.findViewById<Chip>(R.id.chip_today);
-        chipTomorrow = view.findViewById<Chip>(R.id.chip_tomorrow);
+        chipToday.setOnClickListener {
+            presenter.getDailyImageByDate(takeDate(0))
+        }
+        chipTomorrow = view.findViewById<Chip>(R.id.chip_before_yesterday);
+        chipTomorrow.setOnClickListener {
+            presenter.getDailyImageByDate(takeDate(-2))
+        }
+    }
+
+    private fun initSearchWikiIcon(view : View) {
         input_wiki_text_layout = view.findViewById<TextInputLayout>(R.id.input_text_search_wiki_layout)
         input_text_search_wiki = view.findViewById<TextInputEditText>(R.id.input_edit_text_search_wiki)
         input_wiki_text_layout.setEndIconOnClickListener {
@@ -94,5 +109,13 @@ class PictureFragment() : Fragment(), MainContracts.MainView {
     override fun onDestroy() {
         super.onDestroy()
         presenter.detach()
+    }
+
+    private fun takeDate( count : Int): String {
+        val currentDate = Calendar.getInstance()
+        currentDate.add(Calendar.DAY_OF_MONTH, count)
+        val format1 = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        format1.timeZone = TimeZone.getTimeZone("EST")
+        return format1.format(currentDate.time)
     }
 }

@@ -20,6 +20,7 @@
             app:layout_constraintTop_toTopOf="parent">
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_before_yesterday"
+                style="@style/chipStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_anchor="@+id/constraintLayout"
@@ -27,6 +28,7 @@
                 android:text="before yesterday"/>
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_yesterday"
+                style="@style/chipStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_anchor="@+id/constraintLayout"
@@ -34,6 +36,7 @@
                 android:text="yesterday"/>
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_today"
+                style="@style/chipStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_anchor="@+id/constraintLayout"

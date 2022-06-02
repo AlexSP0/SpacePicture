@@ -3,8 +3,10 @@ package com.example.spacepicture.ui
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -62,6 +64,7 @@ class PictureFragment() : Fragment(), MainContracts.MainView {
         setBottomSheetBehavior(view.findViewById(R.id.bottom_sheet_container))
         initChips(view)
         initSearchWikiIcon(view)
+        setHasOptionsMenu(true)
         presenter.getDailyImage()
     }
 
@@ -118,4 +121,5 @@ class PictureFragment() : Fragment(), MainContracts.MainView {
         format1.timeZone = TimeZone.getTimeZone("EST")
         return format1.format(currentDate.time)
     }
+
 }

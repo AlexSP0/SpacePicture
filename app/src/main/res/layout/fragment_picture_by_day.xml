@@ -26,5 +26,4 @@ tools:context=".ui.PictureFragment">
 
 <include layout="@layout/bottom_sheet_main"/>
 
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

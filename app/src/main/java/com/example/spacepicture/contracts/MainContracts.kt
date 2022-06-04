@@ -13,18 +13,29 @@ class MainContracts {
     interface MainModel {
         fun loadImage()
 
-        fun loadImageByDate(date : String)
-
         fun setPresenter(presenter : PictureFragmentPresenter)
 
     }
 
     interface MainPresenter {
-        abstract fun attach(pictureFragment: MainView)
-
-        fun getDailyImageByDate(date : String)
+        fun attach(pictureFragment: MainView)
         fun getDailyImage()
         fun detach()
+
+    }
+
+    interface ByDatePresenter {
+        fun attach(pictureFragment: MainView)
+        fun getDailyImageByDate(date : String)
+        fun getDailyImage()
+        fun setDailyImage(response: NasaImageResponse)
+        fun detach()
+    }
+
+    interface ByDateModel {
+        fun loadImage()
+        fun loadImageByDate(date : String)
+        fun setPresenter(presenter : MainContracts.ByDatePresenter)
 
     }
 

@@ -11,8 +11,8 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class PictureModelImpl : MainContracts.MainModel {
-    private lateinit var presenter: PictureFragmentPresenter
+class ByDateModelImpl : MainContracts.ByDateModel {
+    private lateinit var presenter: MainContracts.ByDatePresenter
 
     private val baseUrl = "https://api.nasa.gov"
 
@@ -22,7 +22,8 @@ class PictureModelImpl : MainContracts.MainModel {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val query: NasaQueryDailyPicture = retrofit.create(NasaQueryDailyPicture::class.java)
-        query.loadDailyImage(BuildConfig.NASA_API_KEY).enqueue(object : Callback<NasaImageResponse> {
+        query.loadDailyImage(BuildConfig.NASA_API_KEY).enqueue(object :
+            Callback<NasaImageResponse> {
             override fun onResponse(
                 call: Call<NasaImageResponse>,
                 response: Response<NasaImageResponse>
@@ -39,7 +40,32 @@ class PictureModelImpl : MainContracts.MainModel {
         })
     }
 
-    override fun setPresenter(presenter: PictureFragmentPresenter) {
+    override fun loadImageByDate(date: String) {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        val query: NasaQueryDailyPicture = retrofit.create(NasaQueryDailyPicture::class.java)
+        query.loadDailyImageByDate(BuildConfig.NASA_API_KEY, date).enqueue(object :
+            Callback<NasaImageResponse> {
+            override fun onResponse(
+                call: Call<NasaImageResponse>,
+                response: Response<NasaImageResponse>
+            ) {
+                val body = response.body()
+                if (response.isSuccessful && body != null) {
+                    presenter.setDailyImage(body)
+                }
+            }
+
+            override fun onFailure(call: Call<NasaImageResponse>, t: Throwable) {
+                //Ooopps..
+            }
+        })
+    }
+
+    override fun setPresenter(presenter : MainContracts.ByDatePresenter) {
         this.presenter = presenter
     }
+
 }

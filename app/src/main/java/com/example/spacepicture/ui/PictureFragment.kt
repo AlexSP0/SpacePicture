@@ -40,12 +40,6 @@ class PictureFragment() : Fragment(), MainContracts.MainView {
 
     private lateinit var input_text_search_wiki : TextInputEditText
 
-    private lateinit var chipYesterday : Chip
-
-    private lateinit var chipToday : Chip
-
-    private lateinit var chipTomorrow : Chip
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         presenter.attach(this)
@@ -62,25 +56,9 @@ class PictureFragment() : Fragment(), MainContracts.MainView {
         super.onViewCreated(view, savedInstanceState)
         image = view.findViewById(R.id.image)
         setBottomSheetBehavior(view.findViewById(R.id.bottom_sheet_container))
-        initChips(view)
         initSearchWikiIcon(view)
         setHasOptionsMenu(true)
         presenter.getDailyImage()
-    }
-
-    private fun initChips(view : View) {
-        chipYesterday = view.findViewById<Chip>(R.id.chip_yesterday);
-        chipYesterday.setOnClickListener {
-            presenter.getDailyImageByDate(takeDate(-1))
-        }
-        chipToday = view.findViewById<Chip>(R.id.chip_today);
-        chipToday.setOnClickListener {
-            presenter.getDailyImageByDate(takeDate(0))
-        }
-        chipTomorrow = view.findViewById<Chip>(R.id.chip_before_yesterday);
-        chipTomorrow.setOnClickListener {
-            presenter.getDailyImageByDate(takeDate(-2))
-        }
     }
 
     private fun initSearchWikiIcon(view : View) {

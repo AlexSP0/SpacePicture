@@ -1,12 +1,9 @@
 package com.example.spacepicture.ui
 
-import android.content.Intent
-import android.net.Uri
+import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -16,61 +13,41 @@ import com.bumptech.glide.Glide
 import com.example.spacepicture.R
 import com.example.spacepicture.contracts.MainContracts
 import com.example.spacepicture.data.NasaImageResponse
-import com.example.spacepicture.presenters.PictureFragmentPresenter
+import com.example.spacepicture.presenters.ByDatePresenterImpl
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.chip.Chip
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
 import java.util.*
 
-class PictureFragment() : Fragment(), MainContracts.MainView {
+class PictureByDate : Fragment(), MainContracts.MainView {
 
-    private val presenter : MainContracts.MainPresenter = PictureFragmentPresenter()
+    private lateinit var  bottomSheetBehavior : BottomSheetBehavior<ConstraintLayout>
+    private lateinit var bottomSheetHeader : TextView
+    private lateinit var bottomSheetDescription : TextView
+
+    private val presenter : MainContracts.ByDatePresenter = ByDatePresenterImpl()
 
     private lateinit var image : ImageView
 
-    private lateinit var  bottomSheetBehavior : BottomSheetBehavior<ConstraintLayout>
-
-    private lateinit var bottomSheetHeader : TextView
-
-    private lateinit var bottomSheetDescription : TextView
-
-    private lateinit var input_wiki_text_layout : TextInputLayout
-
-    private lateinit var input_text_search_wiki : TextInputEditText
+    private var date : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter.attach(this)
+        presenter.attach(this);
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_picture, container, false)
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_picture_by_day, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         image = view.findViewById(R.id.image)
         setBottomSheetBehavior(view.findViewById(R.id.bottom_sheet_container))
-        initSearchWikiIcon(view)
-        setHasOptionsMenu(true)
-        presenter.getDailyImage()
-    }
-
-    private fun initSearchWikiIcon(view : View) {
-        input_wiki_text_layout = view.findViewById<TextInputLayout>(R.id.input_text_search_wiki_layout)
-        input_text_search_wiki = view.findViewById<TextInputEditText>(R.id.input_edit_text_search_wiki)
-        input_wiki_text_layout.setEndIconOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW)
-            val url = "https://en.wikipedia.org/wiki/${input_text_search_wiki.text.toString()}"
-            val uri = Uri.parse(url)
-            intent.data = uri
-            startActivity(intent)
-        }
+        checkDate()
     }
 
     private fun setBottomSheetBehavior(bottomSheet : ConstraintLayout) {
@@ -80,16 +57,41 @@ class PictureFragment() : Fragment(), MainContracts.MainView {
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
-    override fun setImage(imageInfo : NasaImageResponse) {
-        Glide.with(this).load(imageInfo.url).placeholder(R.drawable.film).into(image)
-        bottomSheetHeader.text = imageInfo.title
-        bottomSheetDescription.text = imageInfo.explanation
+    companion object {
+        @JvmStatic
+        fun newInstance() = PictureByDate()
+    }
 
+    override fun setImage(response: NasaImageResponse) {
+        Glide.with(this).load(response.url).placeholder(R.drawable.film).into(image)
+        bottomSheetHeader.text = response.title
+        bottomSheetDescription.text = response.explanation
+    }
+
+    fun checkDate() {
+        if(date == null) {
+            showDateDialog()
+        } else {
+            presenter.getDailyImageByDate(date!!)
+        }
+    }
+
+    private fun showDateDialog() {
+        val calendar = Calendar.getInstance(Locale.getDefault())
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day  = calendar.get(Calendar.DAY_OF_MONTH)
+        val dlg = DatePickerDialog(requireActivity(), DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+            val simpleDateFormat = SimpleDateFormat("YYYY-MM-dd", Locale.getDefault())
+            calendar.set(year, month, dayOfMonth)
+            val chosenTime = simpleDateFormat.format(calendar.time)
+            this.date = chosenTime
+            presenter.getDailyImageByDate(chosenTime)
+        }, year, month, day).show()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         presenter.detach()
     }
-
 }

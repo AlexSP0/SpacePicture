@@ -6,17 +6,16 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
+import com.example.spacepicture.ui.MainFragment
 import com.example.spacepicture.ui.PictureFragment
 
 class MainActivity : AppCompatActivity() {
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_SpacePicture)
         setContentView(R.layout.activity_main)
-        loadFragment(PictureFragment())
+        loadFragment(MainFragment())
         initMainMenu()
     }
 

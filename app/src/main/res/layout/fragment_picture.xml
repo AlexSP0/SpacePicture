@@ -11,39 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/chip_layout"
-            android:gravity="center"
-            app:layout_constraintTop_toTopOf="parent">
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_before_yesterday"
-                style="@style/chipStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_anchor="@+id/constraintLayout"
-                app:layout_anchorGravity="start|top"
-                android:text="before yesterday"/>
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_yesterday"
-                style="@style/chipStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_anchor="@+id/constraintLayout"
-                app:layout_anchorGravity="start|top"
-                android:text="yesterday"/>
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_today"
-                style="@style/chipStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_anchor="@+id/constraintLayout"
-                app:layout_anchorGravity="start|top"
-                android:text="today"/>
-        </LinearLayout>
-
         <ImageView
             android:id="@+id/image"
             android:layout_width="match_parent"

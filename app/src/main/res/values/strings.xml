@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">SpacePicture</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="picture_by_day_fragment">Picture by Date</string>
     <string name="search_wiki">search on wiki</string>
     <string name="wiki_helper_text">help here</string>
+
 </resources>
